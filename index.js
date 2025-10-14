@@ -2,7 +2,7 @@ const path = require('node:path');
 const fs = require('node:fs');
 const { execSync, fork, spawn } = require('child_process');
 
-const botFolders = ['Cleaner', 'Premium', 'Schedule', 'Tracker', 'GCommunity', 'Filter'];
+const botFolders = ['Filter','Cleaner','Premium','Schedule','GCommunity','SmartAI','Tracker'];
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -19,9 +19,9 @@ async function startBotsSequentially() {
     const scriptInSrcTS = path.join(botPath, 'src', 'index.ts');
     const scriptInRootTS = path.join(botPath, 'index.ts');
 
-    console.log(`\n============================================================\n`);
-    console.log(`[${new Date().toLocaleTimeString()}] Initializing App: ${folder}`);
-    console.log(`\n============================================================\n`);
+    console.log(`\n============================================================`);
+    console.log(`[${new Date().toLocaleTimeString()}] 📦 ｜Initializing Bot: ${folder}`);
+    console.log(`============================================================\n`);
 
     let missing = [];
     if (!fs.existsSync(packageJsonPath)) missing.push('package.json');
@@ -73,7 +73,8 @@ async function startBotsSequentially() {
         console.error(`[${new Date().toLocaleTimeString()}] [${folder}] ❌ ｜Failed to start TypeScript bot:`, err);
       }
     } else {
-      console.log(`[${new Date().toLocaleTimeString()}] 🚀 ｜Launching ${folder} App!`);
+        console.log(`[${new Date().toLocaleTimeString()}] 📦 ｜Launching [${folder}]...\n`);
+		console.log(`========================= App Logs =========================\n`);
       try {
         fork(scriptPath, [], { cwd: botPath, stdio: 'inherit' });
           console.log(`[${new Date().toLocaleTimeString()}] 🟢 ｜${folder} app has started!`);
@@ -82,11 +83,11 @@ async function startBotsSequentially() {
       }
     }
 
-    console.log(`===================================================================================================`);
-    console.log(`[${new Date().toLocaleTimeString()}] [${folder}] ⏳ ｜Waiting 5 seconds before starting next bot...`);
-    console.log(`===================================================================================================`);
+    console.log(`\n============================================================`);
+    console.log(`Waiting 15 seconds before starting next bot...`);
+    console.log(`============================================================\n`);
       
-    await sleep(5000);
+    await sleep(15000);
   }
 }
 
